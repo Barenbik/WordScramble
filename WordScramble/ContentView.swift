@@ -13,9 +13,16 @@ struct ContentView: View {
     @State private var newWord = ""
     @State private var errorTitle = ""
     @State private var errorMessage = ""
+    @State private var score = 0
     @State private var showingError = false
     
     var body: some View {
+        VStack {
+            Text("Score: \(score)")
+                .font(.largeTitle)
+                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                .foregroundStyle(.white)
+            
             NavigationStack {
                 List {
                     Section {
@@ -44,6 +51,8 @@ struct ContentView: View {
                     Text(errorMessage)
                 }
             }
+        }
+        .background(.red.gradient)
     }
     
     func addNewWord() {
@@ -82,6 +91,8 @@ struct ContentView: View {
             usedWords.insert(answer, at: 0)
         }
         
+        score += answer.count
+        
         newWord = ""
     }
     
@@ -91,6 +102,7 @@ struct ContentView: View {
                 let allWords = startWords.components(separatedBy: "\n")
                 rootWord = allWords.randomElement() ?? "silkworm"
                 usedWords.removeAll()
+                score = 0
                 return
             }
         }
